@@ -2,7 +2,7 @@
 #include <string>
 #include <Windows.h>
 using namespace std;
-
+//one commit
 class SIGN
 {
 	string name;
