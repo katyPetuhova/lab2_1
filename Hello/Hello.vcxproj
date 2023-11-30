@@ -139,8 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Array_sign.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="output.cpp" />
+    <ClCompile Include="SIGN.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Array_sign.h" />
+    <ClInclude Include="SIGN.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

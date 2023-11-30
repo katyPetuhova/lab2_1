@@ -1,169 +1,183 @@
-#include <iostream>
-#include <string>
-#include <Windows.h>
-using namespace std;
-//one commit
-class SIGN
-{
-	string name;
-	string zodiak;
-	int birthday[3];
-
-public:
-	void setterName(string name) { this->name = name; }
-	void setterZodiak(string zodiak) { this->zodiak = zodiak; }
-	void setterBirthday(int birthday, int i) { this->birthday[i] = birthday; }
-
-	string getterName() { return name; }
-	string getterZodiak() { return zodiak; }
-	int getterBirthday(int i) { return birthday[i]; }
-
-	SIGN()
-	{
-		cout << "calling a constructor SIGN()\n";
-		system("pause");
-		system("cls");
-	}
-
-	SIGN operator = (const SIGN& other)
-	{
-		name = other.name;
-		zodiak = other.zodiak;
-		for (int j = 0; j < 3; j++)
-		{
-			birthday[j] = other.birthday[j];
-		}
-
-		return *this;
-	}
-
-	void Input_consl()
-	{
-		string str;
-		cout << "Name: ";
-		getline(cin, str);
-		setterName(str);
-		cout << "Zodiak: ";
-		getline(cin, str);
-		setterZodiak(str);
-		cout << "Birthday: ";
-		getline(cin, str);
-		int i = 0;
-		int n = 0;
-		int data;
-		string str1;
-		while (str[i] != '\0')
-		{
-			if (str[i] == '.')
-			{
-				data = stoi(str1);
-				setterBirthday(data, n);
-				n++;
-				str1.clear();
-			}
-			else
-			{
-				str1 += str[i];
-			}
-			i++;
-		}
-		data = stoi(str1);
-		setterBirthday(data, n);
-	}
-
-	~SIGN()
-	{
-		cout << "calling a destructor SIGN()\n";
-		system("pause");
-		system("cls");
-	}
-
-	void show()
-	{
-		cout << name << "   " << zodiak << "   ";
-		for (int j = 0; j < 3; j++)
-		{
-			if (j == 2)
-			{
-				cout << birthday[j] << endl;
-			}
-			else
-			{
-				cout << birthday[j] << '.';
-			}
-
-		}
-	}
-};
-
-class Array_sign
-{
-	SIGN* arr;
-	int n;
-
-public:
-
-	int getterN() { return n; }
-
-	Array_sign()
-	{
-		cout << "calling a constructor Array_sign()\n";
-		system("pause");
-		system("cls");
-		n = 0;
-		arr = new SIGN[n];
-	}
-
-	Array_sign(const Array_sign& other)
-	{
-		cout << "calling a constructor copy Array_sign()\n";
-		system("pause");
-		system("cls");
-		n = other.n;
-		arr = new SIGN[n];
-		for (int j = 0; j < n; j++)
-		{
-			arr[j] = other.arr[j];
-		}
-	}
-
-	Array_sign operator++ (int a)
-	{
-		Array_sign buf(*this);
-		delete[]arr;
-		n++;
-		arr = new SIGN[n];
-		for (int j = 0; j < n - 1; j++)
-		{
-			arr[j] = buf.arr[j];
-		}
-		arr[n - 1].Input_consl();
-
-		return *this;
-	}
-
-	void show()
-	{
-		for (int j = 0; j < n; j++)
-		{
-			cout << j + 1 << ".   ";
-			arr[j].show();
-		}
-	}
-
-	~Array_sign()
-	{
-		cout << "calling a destructor Array_sign()\n";
-		system("pause");
-		system("cls");
-		delete[]arr;
-	}
-};
+#include "Array_sign.h"
 
 int main()
 {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	setlocale(LC_ALL, "russian");
 	Array_sign one;
-	one++;
-	one.show();
+	string str;
+	int k;
+	HANDLE hStdout;
+	WORD foregroundColor; // color of string constants
+	WORD foregroundColor1; // character color
+	WORD backgroundColor; // background color
+	WORD textAttribute; // text attribute - color
+	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	foregroundColor = FOREGROUND_INTENSITY |
+		FOREGROUND_BLUE |
+		FOREGROUND_RED;
+	foregroundColor1 = FOREGROUND_INTENSITY |
+		FOREGROUND_BLUE |
+		FOREGROUND_GREEN |
+		FOREGROUND_RED;
+	backgroundColor = 0;
+	SetConsoleTextAttribute(hStdout, foregroundColor1 | backgroundColor);
+	char c, c1;
+	int flag = 1;
+	const char* oper[] =
+	{
+	"Меню:",
+	" 1 – Adding an information",
+	" 2 – Search for information",
+	" 3 – Removing an information",
+	" 4 – Displaying a list on the screen",
+	" 5 – Sorting information",
+	" 6 – Editing an information",
+	" 7 - Exit the program",
+	};
+	int count = 1;
+	while (flag != 0)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (count == i)
+			{
+				textAttribute = foregroundColor | backgroundColor;
+				SetConsoleTextAttribute(hStdout, textAttribute);
+				cout << oper[i] << endl;
+			}
+			else
+			{
+				SetConsoleTextAttribute(hStdout, foregroundColor1 |
+					backgroundColor);
+				cout << oper[i] << endl;
+			}
+		}
+		c = _getch();
+		if (c == 's')
+		{
+			system("cls");
+				count++;
+		}
+		if (c == 'w')
+		{
+			system("cls");
+			count--;
+		}
+		if (count == 0)
+		{
+			count = 7;
+		}
+		if (count == 8)
+		{
+			count = 1;
+		}
+		if (c == ' ')
+		{
+			if (count == 1)
+			{
+				system("cls");
+				one.Add();
+				cout << "0-Вернутся в меню: ";
+				c1 = _getch();
+				if (c1 == '0')
+				{
+					system("cls");
+				}
+				count = 1;
+			}
+			if (count == 2)
+			{
+				system("cls");
+				cout << "Enter last name: ";
+				getline(cin, str);
+				try
+				{
+					one.Search(str);
+				}
+				catch (const char* error_message)
+				{
+					cout << error_message << endl;
+				}
+				cout << "0-Вернутся в меню: ";
+				c1 = _getch();
+				if (c1 == '0')
+				{
+					system("cls");
+				}
+				count = 1;
+			}
+			if (count == 3)
+			{
+				system("cls");
+				one.show();
+				cout << "Enter the number of the object to be deleted: ";
+				getline(cin, str);
+				k = stoi(str);
+				one.Delete(k);
+				system("cls");
+				one.show();
+				cout << "0-Вернутся в меню: ";
+				c1 = _getch();
+				if (c1 == '0')
+				{
+					system("cls");
+				}
+				count = 1;
+			}
+			if (count == 4)
+			{
+				system("cls");
+				one.show();
+				cout << "0-Вернутся в меню: ";
+				c1 = _getch();
+				if (c1 == '0')
+				{
+					system("cls");
+				}
+				count = 1;
+			}
+			if (count == 5)
+			{
+				system("cls");
+				one.Sort();
+				one.show();
+				cout << "0-Вернутся в меню: ";
+				c1 = _getch();
+				if (c1 == '0')
+				{
+					system("cls");
+				}
+				count = 1;
+			}
+			if (count == 6)
+			{
+				system("cls");
+				one.show();
+				cout << "Enter the edit object number: ";
+				getline(cin, str);
+				k = stoi(str);
+				system("cls");
+				one.Redak(k);
+				system("cls");
+				one.show();
+				cout << "0-Вернутся в меню: ";
+				c1 = _getch();
+				if (c1 == '0')
+				{
+					system("cls");
+				}
+				count = 1;
+			}
+			if (count == 7)
+			{
+				SetConsoleTextAttribute(hStdout, foregroundColor1 |backgroundColor);
+				system("cls");
+				flag = 0;
+				break;
+			}
+		}
+	}
 	return 0;
 }
